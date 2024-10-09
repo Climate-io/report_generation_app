@@ -8,11 +8,9 @@ import dspy
 
 load_dotenv()
 
-# Import the modules
 from src.image_desc import ImageAnalyzer
 from src.agent import ReportGenerator
 
-# Set up Streamlit layout
 st.set_page_config(page_title="Water Quality Analyzer", layout="wide")
 
 st.title("🌊 Water Quality Analyzer")
