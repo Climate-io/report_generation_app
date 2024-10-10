@@ -1,7 +1,7 @@
 import base64
 from dotenv import load_dotenv
 from groq import Groq
-
+import os
 # Load environment variables
 load_dotenv()
 
@@ -9,7 +9,7 @@ class ImageAnalyzer:
     def __init__(self, model_name="llama-3.2-11b-vision-preview"):
         # self.image_path = image_path
         self.model_name = model_name
-        self.client = Groq()
+        self.client = Groq(timeout=120, api_key=os.getenv("GROQ_API_KEY"))
 
     def encode_image(self, image_path):
         """
@@ -22,7 +22,7 @@ class ImageAnalyzer:
         """
         Generates a comprehensive water quality report based on the provided water source image and label.
         """
-        # image_base64 = self.encode_image()
+        # image_base64 = self.encode_image(image_path=image_path)
         image_url = f"data:image/jpeg;base64,{image_base64}"
         
         messages = [
@@ -61,8 +61,10 @@ class ImageAnalyzer:
         return completion.choices[0].message
 
 if __name__ == "__main__":
-    analyzer = ImageAnalyzer("./test_data/2.jpg")
+    analyzer = ImageAnalyzer(model_name="llava-v1.5-7b-4096-preview")
+    # image_base64 = analyzer.encode_image("./test_data/2.jpg")
     report_message = analyzer.generate_water_quality_report(
+        image_path="./test_data/2.jpg",
         water_source_label="contaminated"
     )
     print(report_message)
