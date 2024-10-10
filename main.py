@@ -66,7 +66,7 @@ tab1, tab2 = st.tabs(["📊 Analysis", "ℹ️ Help"])
 with tab1:
     st.title("🌊 Water Quality Analyzer")
     st.markdown("""
-        <div style='background-color: #262730; border-radius: 10px; padding:4%;'>
+        <div style='background-color: #262730; border-radius: 10px; padding:3%; margin:2%;'>
         Upload an image of a water body (either from file or capture from your camera) 
         to generate a professional water quality report.
         </div>
