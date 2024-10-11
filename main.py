@@ -24,6 +24,7 @@ st.markdown("""
         border-radius: 5px;
         height: 3em;
         background-color: #0083B8;
+        color: white;
     }
     .reportSection {
         background-color: #f0f2f6;
@@ -48,7 +49,7 @@ analyzer = ImageAnalyzer()
 report_gen = ReportGenerator()
 
 with st.sidebar:
-    st.image("./white-logo.png", width=200)
+    st.image(f"./black-logo.png", width=200)
     st.title("Navigation")
     st.markdown("### How to use")
     st.info("""
@@ -66,7 +67,7 @@ tab1, tab2 = st.tabs(["📊 Analysis", "ℹ️ Help"])
 with tab1:
     st.title("🌊 Water Quality Analyzer")
     st.markdown("""
-        <div style='background-color: #262730; border-radius: 10px; padding:3%; margin:2%;'>
+        <div style='background-color: #f0f2f6; border-radius: 10px;'>
         Upload an image of a water body (either from file or capture from your camera) 
         to generate a professional water quality report.
         </div>
