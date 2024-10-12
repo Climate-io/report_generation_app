@@ -89,13 +89,7 @@ with tab1:
     else:
         st.success("✅ Image captured successfully.")
         
-    st.markdown("### 🏷️ Water Source Classification")
-    water_source_label = st.selectbox(
-        "Select water source type",
-        ["None", "clean", "river", "sea", "contaminated", "suspected contamination"],
-        help="Choose the type of water body in the image"
-    )
-
+    
     if image_input or camera_input:
         with st.spinner("Processing image..."):
             if image_input:
@@ -113,20 +107,18 @@ with tab1:
             image.save(buffered, format="JPEG")
             image_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
-            if water_source_label == "None":
-                st.warning("⚠️ Please select a water source type to continue.")
-            else:
-                with st.spinner("🔄 Analyzing water quality..."):
-                    progress_bar = st.progress(0)
-                    for i in range(100):
-                        progress_bar.progress(i + 1)
-                    
-                    report_message = analyzer.generate_water_quality_report(
-                        image_base64=image_base64,
-                        water_source_label=water_source_label
-                    )
-                    formatted_report = report_gen.forward(report_message.content)
-
+            with st.spinner("🔄 Analyzing water quality..."):
+                progress_bar = st.progress(0)
+                for i in range(100):
+                    progress_bar.progress(i + 1)
+                
+                report_message = analyzer.generate_water_quality_report(
+                    image_base64=image_base64,
+                )
+                formatted_report,urdu_report = report_gen.forward(report_message.content)
+                
+            english_tab, urdu_tab = st.tabs(["English", "اردو"])
+            with english_tab:
                 st.markdown("""
                     <div class='reportSection'>
                     <h3 style='color: #0083B8;'>📑 Water Quality Report</h3>
@@ -135,11 +127,31 @@ with tab1:
                 formatted_report = formatted_report.replace("```", "")
                 formatted_report = formatted_report.replace("markdown", "")
                 st.markdown(formatted_report, unsafe_allow_html=True)
-                
                 if st.download_button(
                     label="📥 Download Report",
                     data=formatted_report,
                     file_name="water_quality_report.md",
+                    mime="text/markdown"
+                ):
+                    st.success("✅ Report downloaded successfully!")
+            
+            st.markdown("</div>", unsafe_allow_html=True)
+
+                
+            with urdu_tab:
+                st.markdown("""
+                    <div class='reportSection'>
+                    <h3 style='color: #0083B8;'>📑پانی کی معیار رپورٹ </h3>
+                    """, unsafe_allow_html=True)
+
+                urdu_report = urdu_report.replace("```", "")
+                urdu_report = urdu_report.replace("markdown", "")
+                st.markdown(urdu_report, unsafe_allow_html=True)
+                
+                if st.download_button(
+                    label="📥 رپورٹ ڈاؤن لوڈ کریں",
+                    data=urdu_report,
+                    file_name="water_quality_report_urdu.md",
                     mime="text/markdown"
                 ):
                     st.success("✅ Report downloaded successfully!")

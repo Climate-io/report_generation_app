@@ -18,7 +18,7 @@ class ImageAnalyzer:
         with open(image_path, "rb") as image_file:
             return base64.b64encode(image_file.read()).decode('utf-8')
 
-    def generate_water_quality_report(self, image_base64, water_source_label, temperature=1, max_tokens=1024, top_p=1):
+    def generate_water_quality_report(self, image_base64, temperature=1, max_tokens=2048, top_p=1):
         """
         Generates a comprehensive water quality report based on the provided water source image and label.
         """
@@ -31,12 +31,11 @@ class ImageAnalyzer:
                 "content": [
                     {
                         "type": "text",
-                        "text": "You are a professional environmental analyst. Generate a structured report based on the given image of a water body, covering the following: Safety Level: Indicate if the water is safe or unsafe for consumption with visual justification. Tags: Summarize key aspects of the water's condition (e.g., Turbidity, Algae, Greenish Hue). Overview: Briefly describe the water's appearance (color, turbidity, pollutants) and what it implies about quality. Classification: Classify the water (e.g., Clean, Polluted) and explain the reasoning. Environmental Impact: Discuss potential risks to the ecosystem, aquatic life, and human health. Economic Impact: Note possible economic effects (e.g., treatment costs, fisheries). Recommendations: Suggest treatments, preventive measures, and improvements for water quality. Ensure the report is concise, professional, and aligned with environmental standards."
-
+                        "text":"You are an expert environmental analyst specialized in water quality assessment. Analyze the provided image of a water body and generate a detailed, structured report, including the following sections: 1. Safety Level: Clearly indicate whether the water is safe or unsafe for human consumption. Provide a visual justification, referring to observable features in the image (e.g., clarity, color, contaminants). 2. Tags: Highlight key aspects of the water's condition (e.g., Turbidity, Algae, Greenish Hue, Oil Sheen) based on visible characteristics. 3. Overview: Provide a concise description of the water's appearance, focusing on color, turbidity, presence of pollutants, or organic growth. Explain what these traits imply about the water quality. 4. Classification: Categorize the water (e.g., Clean, Polluted, Contaminated) based on visual cues and inferred data. Justify the classification with specific observations. 5. Environmental Impact: Discuss the potential effects of the water's current condition on the surrounding ecosystem, including risks to aquatic life and long-term effects on biodiversity and habitats. 6. Economic Impact: Consider possible economic consequences, such as the costs of water treatment, impacts on local fisheries, or agricultural implications. 7. Recommendations: Provide actionable suggestions for improving water quality, including necessary treatments (e.g., filtration, chemical neutralization) and preventive measures to avoid further contamination. Ensure the report is accurate, concise, and adheres to environmental standards. Present all information in a professional format, suitable for both scientific and public audiences."
                     },
                     {
                         "type": "text",
-                        "text": f"Analyze this water body labeled as {water_source_label} and provide a detailed environmental report."
+                        "text": f"Analyze this water body and provide a detailed environmental report."
                     },
                     {
                         "type": "image_url",
