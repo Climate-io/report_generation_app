@@ -49,7 +49,7 @@ analyzer = ImageAnalyzer()
 report_gen = ReportGenerator()
 
 with st.sidebar:
-    st.image(f"./white-logo.png", width=200)
+    st.image(f"./black-logo.png", width=200)
     st.title("Navigation")
     st.markdown("### How to use")
     st.info("""
