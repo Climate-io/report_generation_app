@@ -49,7 +49,7 @@ analyzer = ImageAnalyzer()
 report_gen = ReportGenerator()
 
 with st.sidebar:
-    st.image(f"./black-logo.png", width=200)
+    st.image(f"./white-logo.png", width=200)
     st.title("Navigation")
     st.markdown("### How to use")
     st.info("""
@@ -82,11 +82,13 @@ with tab1:
     )
 
     st.markdown("### 📸 Capture from Camera")
-    if st.button("Capture from Camera"):
-        camera_input = st.camera_input("Click to capture", help="Make sure you have good lighting")
-    else:
-        camera_input = None
+    camera_input = st.camera_input("Click to capture", help="Make sure you have good lighting")
 
+    if camera_input is None:
+        st.warning("⚠️ Unable to capture from the camera. Please make sure the camera is enabled and try again.")
+    else:
+        st.success("✅ Image captured successfully.")
+        
     st.markdown("### 🏷️ Water Source Classification")
     water_source_label = st.selectbox(
         "Select water source type",

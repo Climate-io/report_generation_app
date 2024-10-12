@@ -61,7 +61,8 @@ class ImageAnalyzer:
         return completion.choices[0].message
 
 if __name__ == "__main__":
-    analyzer = ImageAnalyzer(model_name="llava-v1.5-7b-4096-preview")
+    # analyzer = ImageAnalyzer(model_name="llava-v1.5-7b-4096-preview")
+    analyzer = ImageAnalyzer()
     # image_base64 = analyzer.encode_image("./test_data/2.jpg")
     report_message = analyzer.generate_water_quality_report(
         image_path="./test_data/2.jpg",
