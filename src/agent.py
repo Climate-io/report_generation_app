@@ -9,19 +9,21 @@ lm = dspy.OpenAI(model="gpt-4o-mini", api_key=os.getenv("OPENAI_API_KEY"), max_t
 
 dspy.settings.configure(lm=lm)
 
-class AnalyzeAndFixVLMOutput(Signature):
+class AnalyzeAndFixWaterReport(Signature):
     """
-    Analyze and correct the output from the Vision Language Model (VLM).
+    Analyze and correct a water quality report.
     ---
     Input:
-    - VLM output: image classification, environmental impact, water quality report.
+    - Initial water report: An automatically generated water quality report.
     
     Output:
-    - A professional, fact-checked report free from duplicated sentences, dates, locations, or other real-world identifiers. 
-      Ensures content sounds natural, accurate, and provides actionable insights.
+    - A professional, polished, fact-checked report that avoids redundant phrases, 
+      removes any unnecessary identifiers (e.g., dates, locations), and offers natural-sounding, 
+      actionable insights on water quality and environmental impact.
     """
-    vlm_output = InputField(type=str, desc="VLM output: image classification, environmental impact, water quality report.")
-    corrected_report = OutputField(type=str, desc="Fact-checked and corrected report with real-world information like dates, places, and locations removed. Ensures no duplicated sentences.")
+    
+    initial_report = InputField(type=str, desc="The initial water quality report.")
+    corrected_report = OutputField(type=str, desc="A fact-checked, natural-sounding, professional water quality report free of duplicated sentences and unnecessary real-world identifiers.")
 
 class TextToMarkdown(Signature):
     """
@@ -52,7 +54,7 @@ class English2Urdu(Signature):
 class ReportGenerator(Module):
     def __init__(self):
         super().__init__()
-        self.parser = dspy.ChainOfThought(AnalyzeAndFixVLMOutput)
+        self.parser = dspy.ChainOfThought(AnalyzeAndFixWaterReport) #
         self.converter = dspy.ChainOfThought(TextToMarkdown)
         self.urdu_converter = dspy.ChainOfThought(English2Urdu)
 
